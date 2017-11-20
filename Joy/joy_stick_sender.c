@@ -4,6 +4,7 @@
 //joy_stick_sender.c
 
 //Sends the movement commands to the tank via the bluetooth dongle.
+//used SparkFun Bluetooth Modem - BlueSMiRF
 //robot tank recieves and responds accordingly
 
 #include <stdlib.h>

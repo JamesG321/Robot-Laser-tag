@@ -1,3 +1,11 @@
+//Robot laser tag game
+//James Guo
+//Autmn 2016
+//motor_action.c
+
+//function headers for controlling the motors. used H-bridge as motor driver for the tank.
+//tank has 2 motors, A on left and B on right.
+//adjust code/wiring accordingly to use on different chasis.
 #ifndef _MOTOR_ACTION_H_
 #define _MOTOR_ACTION_H_
 
@@ -5,7 +13,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-// PINS
+// GPIO PIN layout
 #define AIN1 67
 #define AIN2 66
 #define BIN1 69
@@ -16,7 +24,8 @@
 #define RIGHTEYE 4
 #define BACKEYE 3
 
-// DUTY for speed
+// DUTY cycle for speed control.
+//sent to H-bridge to adjust speed
 #define ZERO 320000
 #define MAX 10000
 #define GEAR1 280000
@@ -28,7 +37,7 @@ int Gears[6] = {ZERO, GEAR1, GEAR2, GEAR3, GEAR4, MAX};
 // number of GPIOs
 //#define GPIO 5
 
-// SIGNALS
+// SIGNALS for status of tank
 #define STOP 23
 #define MOVE 22
 #define LEFT 20
@@ -54,7 +63,5 @@ static void BBackward();
 static void AStop();
 static void BStop();
 
-/*
-static void sig_handler(int signo);*/
 
 #endif

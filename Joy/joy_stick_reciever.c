@@ -2,8 +2,8 @@
 //James Guo
 //Autmn 2016
 //joy_stick_reciever.c
-//Recevies hits from the tank and keeps track of HP and game logic
-
+//Recevies hits from the tank via bleutooth and keeps track of HP and game logic
+//used SparkFun Bluetooth Modem - BlueSMiRF
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>

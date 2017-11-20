@@ -1,4 +1,10 @@
-//Sends hit detection
+//Robot laser tag game
+//James Guo
+//Autmn 2016
+//tank_sender.c
+
+//Sends hit detection via bluetooth dongle
+//used SparkFun Bluetooth Modem - BlueSMiRF
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -23,27 +29,21 @@
 #define FALSE 0
 #define TRUE 1
 
+//threshold value for distance sensor hit detection
+//if distance sensor reads value greater, it would be a hit 
+#define HIT_THRESHOLD 50
+
 #include "Signals.h"
 #include "motor_action.h"
 #include "motor_action.c"
-
-int changeGPIOValue(int val, int gpio_num, FILE *file) {
-	if (val == -1) {
-		val = 0;
-	}
-	char path[50];
-	sprintf(path, "/sys/class/gpio/gpio%d/value", gpio_num);
-	file = fopen(path, "w");
-	fseek(file, 0, SEEK_SET);
-	fprintf(file, "%d", val);
-	fflush(file);
-	fclose(file);
-	return 0;
-}
+//writes value passed in to GPIO output (0,1,-1)
+//if value = -1, write 0.
+int changeGPIOValue(int val, int gpio_num, FILE *file);
 
 int main() {
 	FILE *dx, *dy, *play;
 	
+	//intialization of serial port interface for sending hit detection to joystick controller
 	play = fopen("/sys/devices/bone_capemgr.9/slots", "w");
         fseek(play, 0, SEEK_SET);
         fprintf(play, "%s", "cape-bone-iio");
@@ -113,17 +113,22 @@ int main() {
 	int cnt = 0;
 	int temp = 0;
 
+	//pointer to serial out pin, intialize
 	FILE *BL = fopen("/dev/ttyO1", "w");
+
+	//hit detection loop
 	while (1) {
 		char buffx [50];
 		char buffy [50];
+		//value returned fron distance sensor x and y
 		char disx [50];
 		char disy [50];
+		//valx and valy corresponds to distance sensor x and y values.
+		//in this case, if valx or valy exceeds HIT_THRESHOLD, it is a hit.
 		int valx;
 		int valy;
 		fseek(dx, 0,SEEK_SET);
 	        fread(buffx, 2, 2, dx);
-		//printf("test");
 		//d0 with the distance value I need
 		//read from d0 and put it in int val0
 		valx = atoi(buffx);
@@ -138,10 +143,8 @@ int main() {
 		//read from d0 and put it in int val0
 		fflush(dy);
 
-		//printf("front: %d\n", valx);
-		//printf("back: %d\n", valy);
-		//printf("valy: %d, valx: %d\n", valy, valx);
-		if (valy > 50 || valx > 50) {
+		//if hit is detected, sends out the HIT signal to joystick controller.
+		if (valy > HIT_THRESHOLD || valx > HIT_THRESHOLD) {
 			//printf("valy: %d, valx: %d\n", valy, valx);
 			if (temp == 1) {
 				cnt++;
@@ -165,5 +168,21 @@ int main() {
 		}
 		usleep(10000);
 	}
+	return 0;
+}
+
+//writes value passed in to GPIO output (0,1,-1)
+//if value = -1, write 0.
+int changeGPIOValue(int val, int gpio_num, FILE *file) {
+	if (val == -1) {
+		val = 0;
+	}
+	char path[50];
+	sprintf(path, "/sys/class/gpio/gpio%d/value", gpio_num);
+	file = fopen(path, "w");
+	fseek(file, 0, SEEK_SET);
+	fprintf(file, "%d", val);
+	fflush(file);
+	fclose(file);
 	return 0;
 }

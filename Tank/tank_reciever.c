@@ -1,4 +1,10 @@
-//recevies movement commands from tank
+//Robot laser tag game
+//James Guo
+//Autmn 2016
+//tank_reciever.c
+
+//recevies movement commands from tank via bluetooth dongle
+//used SparkFun Bluetooth Modem - BlueSMiRF
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,6 +38,7 @@ int main(){
    int GPIOs[5] = {AIN1, AIN2, BIN1, BIN2, STDBY};
    // Specifies the file that the pointer will be used for (w = //write)
    sys = fopen("/sys/class/gpio/export", "w");
+   //error detection for file ptr
    /*if (sys == NULL) {
      printf("errno: %d\n", errno);
      exit(0);
@@ -52,6 +59,7 @@ int main(){
    }
 
    FILE *play;
+   //intialize pwn pins
    play = fopen("/sys/devices/bone_capemgr.9/slots", "w");
    fseek(play, 0, SEEK_SET);
    fprintf(play, "%s", "am33xx_pwm");
@@ -106,16 +114,16 @@ int main(){
    // NMEA command to ouput all sentences
    // Note that this code & format values in manual are hexadecimal
 
-   //initializing bluetooth module and putting it into command mode
-   //write(fd, "$$$", 3);
-
    int status = -1;
+   //initialize status to dummy value
    while(1){
       res = read(fd, buf, 255);
-      buf[res] = 0;             /* set end of string, so we can printf */
+      buf[res] = 0;             /* set end of string, so we can use it */
       //printf("%s", buf, res);
 
+      //reads movement sent to serial port
       int movement = atoi(buf);
+      //nested decesion tree to determine what gear and direction/speed the tank will move
       if (movement != status) {
         
         if (movement == FORWARD3) {
@@ -150,5 +158,6 @@ int main(){
         }
       }
    }
+   //return 0 if loop exits (bug encountered)
    return 0;
 }
