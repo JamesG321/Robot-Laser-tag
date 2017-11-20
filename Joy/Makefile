@@ -1,3 +1,7 @@
+#Robot laser tag game
+#James Guo
+#Autmn 2016
+#Makefile for joystick modules
 all: joy_stick_lcd_main joy_stick_sender joy_stick_reciever
 
 joy_stick_lcd_main: joy_stick_lcd_main.c joy_stick_lcd.*
