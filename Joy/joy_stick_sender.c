@@ -1,5 +1,10 @@
-//Sends the movement commands to the tank
+//Robot laser tag game
+//James Guo
+//Autmn 2016
+//joy_stick_sender.c
 
+//Sends the movement commands to the tank via the bluetooth dongle.
+//robot tank recieves and responds accordingly
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -80,7 +85,7 @@ int main(){
 	int valx;
 	int valy;
 
-
+	//speed and direction states for the tank 
 	int speed = 0;
 	int direction = 0;
 
@@ -125,15 +130,16 @@ int main(){
    FILE *button;
    int PushJ = 1;
 
-   //main logic loop
+   //main logic loop, actively sending movement signals to tank
 	
 	while(1){
 		
+		//open serial out port
 		FILE *BL = fopen("/dev/ttyO1", "w");
 
 
-
 		char buffer[2];
+		//initialize button
 		button = fopen("/sys/class/gpio/gpio60/value", "w+");
 
 		fseek(button, SEEK_SET, 0);
@@ -142,6 +148,7 @@ int main(){
 		fclose(button);
 
 		//PushJ=auto forward with max speed, break if any other actions performed on joystick 
+		//(when butten is pressed, robot tank moves forward w/ max speed)
 		if(PushJ == 0){
 			while(PushJ == 0){
 				char buffer[2];
@@ -152,7 +159,7 @@ int main(){
 				PushJ = atoi(buffer);
 				fclose(button);
 
-
+				//sends forward max speed signal to tank
 				fprintf(BL, "%d", FORWARD3);
 				fprintf(BL, "\n");
 				fflush(BL);
@@ -172,7 +179,9 @@ int main(){
 		fflush(dx);
 
 
-		
+		//determine direction of tank via x axis of joystick
+		//direction: 0 = front, 1 = right, 2 = left
+		//adjust accordingly if using different potentiometer joysticks
 		if(valx > 800 && valx < 950){
 			direction = 0;
 		}else if(valx > 1600){
@@ -193,11 +202,10 @@ int main(){
 		//printf("valy: %d\n", valy);
 
 
-		
-
+		//determine spyeed according to y axis of joystick
+		//speed: 0 = still, 1 = forward 1, 2 = forward 2, -1 = backwards
 		if(valy > 850 && valy < 1000){
 			speed = 0;
-		
 			
 		}else if(valy > 2 && valy < 850){
 			speed = 1;
@@ -207,18 +215,16 @@ int main(){
 			speed = -1;
 		}
 
-		
-		//printf("valy: %d valx: %d\n", valy, valx);
+		//nested logic loop to determine what direction/speed signal to send to tank
+		//according to speed and direction
 		if (abs(valy - 900) > abs(valx - 900)) {
 			if (speed == 2) {
 				/*shiftGear(3);
 				moveForward();*/
-				//printf("%s\n", "wtf1");
 				fprintf(BL, "%d", FORWARD1);
 				fprintf(BL, "\n");
 				fflush(BL);
 			} else if (speed == 1) {
-				//printf("%s\n", "wtf2");
 				/*shiftGear(1);
 				moveForward();*/
 				fprintf(BL, "%d", FORWARD3);
@@ -226,13 +232,11 @@ int main(){
 
 				fflush(BL);
 			} else if (speed == -1) {
-				//printf("%s\n", "wtf3");
 				/*moveBackward();*/
 				fprintf(BL, "%d", BACKWARD);
 				fprintf(BL, "\n");
 				fflush(BL);
 			} else {
-				//printf("%s\n", "wtf4");
 				//shiftGear(0);
 				fprintf(BL, "%d", STANDBY);
 				fprintf(BL, "\n");
@@ -240,13 +244,11 @@ int main(){
 			}
 		} else {
 			if (direction == 1) {
-				//printf("%s\n", "wtf5");
 				//turnRight();
 				fprintf(BL, "%d", RIGHT);
 				fprintf(BL, "\n");
 				fflush(BL);
 			} else if (direction == 2) {
-			//	printf("%s\n", "wtf6");
 				//turnLeft();
 				fprintf(BL, "%d", LEFT);
 				fprintf(BL, "\n");

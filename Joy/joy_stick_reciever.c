@@ -1,3 +1,7 @@
+//Robot laser tag game
+//James Guo
+//Autmn 2016
+//joy_stick_reciever.c
 //Recevies hits from the tank and keeps track of HP and game logic
 
 #include <stdlib.h>
@@ -12,9 +16,10 @@
    included by <termios.h> */
 #define BAUDRATE B115200   // Change as needed, keep B
 
+//maximum HP for robot
 #define HPMAX 1001
 
-/* change this definition for the correct port */
+
 #define MODEMDEVICE "/dev/ttyO4" //Beaglebone Black serial port
 
 #define _POSIX_SOURCE 1 /* POSIX compliant source */
@@ -26,10 +31,10 @@
 #include "joy_stick_lcd.h"
 
 int main() {
-  //lcd ini
+  //lcd initiation
   FILE *file;
-	write10Bits(0,0,0,0,0,0,0,0,0,1,file);	// Clear Display
-
+	clear(file); 	// Clear Display
+  //Initialize LCD
 	write10Bits(0,0,0,0,1,1,1,0,-1,-1,file);	// turn on second line
 	write10Bits(0,0,0,0,0,0,1,1,1,0,file);
 	write10Bits(0,0,0,0,0,0,0,1,1,0,file);
@@ -162,16 +167,17 @@ int main() {
 		printf("%d\n", HP);
 
     
-
+//Looses HP when HIT signal is received
 		if (hit == HIT) {
 			HP--;
 			clear(file);
 			char hp[10];
 			sprintf(hp, "HP: %d", HP);
 			writeString(hp, file);
+      //vibrate motor
       changeGPIOValue(1, 115, vib);
 
-
+      //When hp = 0, game is over.
       
 			if (HP == 0) {
 				clear(file);
@@ -179,8 +185,9 @@ int main() {
 				exit(1);
 			}
 		} 
-
+    //small delay before stopping vibration
 		usleep(80000);
+    //turn off vibrate
     changeGPIOValue(0, 115, vib);
 
  

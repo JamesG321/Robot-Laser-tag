@@ -1,9 +1,20 @@
+//Robot laser tag game
+//James Guo
+//Autmn 2016
+//joy_stick_lcd.c
+
+//methods to interface between lcd and beaglebone board.
+//pin I/O can be changed via joy_stick_lcd.h
+//See lcd manual from documentation for more details of the interface.
+
+
 #include "joy_stick_lcd.h"
 
 #include <time.h>
 
 //Module for LCD control
 
+//change 
 void enableRead(FILE *file) {
 	changeGPIOValue(1, E, file);
 	usleep(4000);
@@ -11,8 +22,6 @@ void enableRead(FILE *file) {
 }
 
 // change the value of a specific gpio_num with val;
-// return 	0 for success,
-//			-1 for error.
 int changeGPIOValue(int val, int gpio_num, FILE *file) {
 	if (val == -1) {
 		val = 0;
@@ -28,8 +37,7 @@ int changeGPIOValue(int val, int gpio_num, FILE *file) {
 }
 
 // Write bits into RS, R/W and DB0 to DB7 of a ; does not write if the input is -1;
-// return	0 for success,
-//			-1 for error.
+//
 int write10Bits(int NewRS, int NewRW, int NewDB7, int NewDB6, int NewDB5,
 				int NewDB4, int NewDB3, int NewDB2, int NewDB1, int NewDB0, FILE *file) {
 	changeGPIOValue(NewRS, RS, file);
@@ -45,24 +53,28 @@ int write10Bits(int NewRS, int NewRW, int NewDB7, int NewDB6, int NewDB5,
 	enableRead(file);
 	return 0;
 }
-
+//turn to write first line mode
 void firstLine(FILE *file) {
 	write10Bits(0,0,1,0,0,0,0,0,0,0,file);
 }
 
+//turn to write second line mode
 void secondLine(FILE *file) {
 	write10Bits(0,0,1,1,0,0,0,0,0,0,file);
 }
 
+//sends sequence to clear the characters on the LCD screen
 void clear(FILE *file) {
 	write10Bits(0,0,0,0,0,0,0,0,0,1,file);
 }
 
+
+//sends sequence to turn lcd display OFF
 void turnOff(FILE *file) {
-	write10Bits(0,0,0,0,0,0,1,0,0,0,file);	// Display OFF
+	write10Bits(0,0,0,0,0,0,1,0,0,0,file);	
 }
 
-
+//sends sequence to write an individual char to the lcd screen
 void writeChar(char ch, FILE *file) {
 	int bits[8];
 	int i = 0;
@@ -74,7 +86,8 @@ void writeChar(char ch, FILE *file) {
 	write10Bits(1,0,bits[7],bits[6],bits[5],bits[4],bits[3],bits[2],bits[1],bits[0],file);
 }
 
-
+//Writes a given string to the lcd string 
+//uses writeChar() 
 void writeString(const char* bufSource, FILE *file) {
 	int i;
 	for (i = 0; i < strlen(bufSource); i++) {

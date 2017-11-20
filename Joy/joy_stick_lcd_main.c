@@ -1,17 +1,23 @@
+//Robot laser tag game
+//James Guo
+//Autmn 2016
+//joy_stick_lcd_main.c
+
+//main .c file for interface between lcd and beaglebone board.
+//pin I/O can be changed via joy_stick_lcd.h
+//not actually used in this application
+//used for reference.
+//See lcd manual from documentation for more details of the interface.
+
 #include "joy_stick_lcd.h"
 
-//Initiallizes the LCD
+
 
 int main() {
 	// Creates the File pointers to create the gpio file system,
 	// set the direction of the GPIO, and change the data stored there.
 
-    //system("echo BB-UART4 > /sys/devices/bone_capemgr.9/slots");
-    //system("echo BB-UART1 > /sys/devices/bone_capemgr.9/slots");
 	FILE *sys, *dir, *file, *duty;
-	/*duty = fopen("/sys/devices/ocp.3/pwm_test_P8_19.15/duty", "w");
-	fprintf(duty, "%d", 9999);
-	fflush(duty);*/
 	// an array for storing all GPIO_PIN numbers being used.
 	int GPIOs[GPIO] = {RS, RW, E, DB0, DB1, DB2, DB3, DB4, DB5, DB6, DB7};
 
@@ -34,13 +40,16 @@ int main() {
 	}
 
 
-	// initialize LCD
-	write10Bits(0,0,0,0,0,0,0,0,0,1,file);	// Clear Display
 
+	clear(file);	// Clear Display
+	// initialize LCD
 	write10Bits(0,0,0,0,1,1,1,0,-1,-1,file);	// turn on second line
 	write10Bits(0,0,0,0,0,0,1,1,1,0,file);
 	write10Bits(0,0,0,0,0,0,0,1,1,0,file);
 
 	writeString("LCD INITIALIZED", file);
+
+	//lcd operations should go here.
+
 	return 0;
 }
