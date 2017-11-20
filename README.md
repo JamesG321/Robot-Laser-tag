@@ -31,6 +31,10 @@ See [Lab5Report group 21.pdf](https://github.com/JamesG321/Robot-Laser-tag/blob/
 
 [Uxcell DC1.5V/0.04A 3V/0.09A 1000RPM 4mm Micro Vibration Motor](https://www.amazon.com/gp/product/B00PZV52O8/ref=oh_aui_search_detailpage?ie=UTF8&psc=1)
 
+[Toshiba TB6612FNG H-bridge Intergrated Circuit](https://www.sparkfun.com/datasheets/Robotics/TB6612FNG.pdf) 
+
+[Spark Fun Multi-Chassis - Tank Version](https://www.sparkfun.com/products/12091)
+
 ## Authors
 
 * **James Guo** - [GitHub](https://github.com/JamesG321)
