@@ -11,8 +11,11 @@ See my [Lab Report](https://github.com/JamesG321/Robot-Laser-tag/blob/master/Lab
 
 ## Getting Started
 
-This project is built using BeagleBone black boards.
+This project is built using 
+[Beaglebone black](https://beagleboard.org/black) boards for the robot and the controller.
 Being famliar with c and linux and how to connect to a host (the boards) via USB to run code is recommended.
+
+Building a similar system using different parts is possible, but adjusting the GPIOs and board interface variables accordingly is required. 
 
 ## Documentation
 
@@ -20,7 +23,7 @@ See [Lab5Report group 21.pdf](https://github.com/JamesG321/Robot-Laser-tag/blob/
 
 ## Built With
 
-Beaglebone black boards/[Beaglebone black](https://beagleboard.org/black)
+[Beaglebone black](https://beagleboard.org/black)
 
 ["PS2" Joystick breakout board](https://www.amazon.com/WGCD-Joystick-Breakout-Controller-Arduino/dp/B01N59MK0U/ref=sr_1_1?ie=UTF8&qid=1511179651&sr=8-1&keywords=joystick+breakout+module&dpID=51TYC4fWDkL&preST=_SX300_QL70_&dpSrc=srch)
 
