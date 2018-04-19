@@ -19,7 +19,7 @@ Building a similar system using different parts is possible, but adjusting the G
 
 ## Documentation
 
-See [Lab5Report group 21.pdf](https://github.com/JamesG321/Robot-Laser-tag/blob/master/Lab5Report%20group%2021.pdf) for detailed documentation of setup.
+See [robot laser tag.pdf](https://github.com/JamesG321/Robot-Laser-tag/blob/master/robot%20laser%20tag.pdf) for detailed documentation of setup.
 
 ## Built With
 
