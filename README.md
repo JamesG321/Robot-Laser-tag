@@ -7,7 +7,7 @@ that "shoots" IR signals to the repurosed IR distance sensors on the robot. the 
 
 Here is a breif [YouTube video demo](https://www.youtube.com/watch?v=cTD_Vb94pVg) of the project.
 
-See my [Lab Report](https://github.com/JamesG321/Robot-Laser-tag/blob/master/Lab5Report%20group%2021.pdf) in the repo for more details of the hardware setup.
+See my [Lab Report](https://github.com/JamesG321/Robot-Laser-tag/blob/master/robot%20laser%20tag.pdf) in the repo for more details of the hardware setup.
 
 ## Getting Started
 
